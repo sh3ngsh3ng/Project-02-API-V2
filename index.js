@@ -35,6 +35,15 @@ async function main () {
         res.json(result)
     })
 
+    app.delete("/delete/:id", async (req,res) => {
+        let db = MongoUtil.getDB()
+        let results = await db.collection("question_bank").deleteOne({
+            '_id': ObjectId(req.params.id)
+        })
+        res.status(200)
+        res.send(results)
+    })
+
 }
 
 main ()
