@@ -17,7 +17,17 @@ app.use(express.json())
 async function main () {
     await MongoUtil.connect(mongoUrl, "project_02")
 
-    // route for ques display
+
+    // route to display ALL questions
+    app.get("/", async (req,res) => {
+        let db = MongoUtil.getDB()
+        let results = await db.collection("question_bank").find().toArray()
+        res.status(200)
+        res.json(results)
+    })
+
+
+    // route for ques display based on selected fields
     app.get("/:level/", async (req,res) => {
         let db = MongoUtil.getDB()
         let results = await db.collection("question_bank").find({
@@ -34,7 +44,12 @@ async function main () {
     app.post("/addquestion", async (req, res) => {
         let db = MongoUtil.getDB()
         let result = await db.collection("question_bank").insertOne({
-            "food": "test"
+            "level": req.body.level,
+            "grade": req.body.grade,
+            "subject": req.body.subject,
+            "topic": req.body.topic,
+            "prompt": req.body.prompt,
+            "suggested_answer": req.body.answer
         })
         res.status(200)
         res.json(result)
