@@ -40,7 +40,7 @@ async function main () {
         res.json(results)
     })
 
-    // route to create ques
+    // route to create question
     app.post("/addquestion", async (req, res) => {
         let db = MongoUtil.getDB()
         let result = await db.collection("question_bank").insertOne({
@@ -55,10 +55,28 @@ async function main () {
         res.json(result)
     })
 
-    app.delete("/delete/:id", async (req,res) => {
+    // route to update question
+    app.put("/update/:questionid", async(req, res) => {
+        let db = MongoUtil.getDB()
+        let result = await db.collection("question_bank").updateOne({
+            '_id': ObjectId(req.params.questionid)
+        }, {
+            '$set': {
+                'prompt': req.body.prompt,
+                'suggested_answer': req.body.answer
+            }
+        })
+        res.status(200)
+        res.json(result)
+    })
+
+
+
+    // route to delete question
+    app.delete("/delete/:questionid", async (req,res) => {
         let db = MongoUtil.getDB()
         let results = await db.collection("question_bank").deleteOne({
-            '_id': ObjectId(req.params.id)
+            '_id': ObjectId(req.params.questionid)
         })
         res.status(200)
         res.send(results)
