@@ -17,16 +17,21 @@ app.use(express.json())
 async function main () {
     await MongoUtil.connect(mongoUrl, "project_02")
 
-
-    app.get("/", async (req,res) => {
+    // route for ques display
+    app.get("/:level/", async (req,res) => {
         let db = MongoUtil.getDB()
-        let results = await db.collection("question_bank").find().toArray()
+        let results = await db.collection("question_bank").find({
+            "level": req.params.level,
+            "grade": req.query.grade,
+            "subject": req.query.subject,
+            "topic": req.query.topic
+        }).toArray()
         res.status(200)
         res.json(results)
     })
 
-
-    app.post("/post", async (req, res) => {
+    // route to create ques
+    app.post("/addquestion", async (req, res) => {
         let db = MongoUtil.getDB()
         let result = await db.collection("question_bank").insertOne({
             "food": "test"
