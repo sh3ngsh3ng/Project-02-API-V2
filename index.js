@@ -49,7 +49,8 @@ async function main () {
             "subject": req.body.subject,
             "topic": req.body.topic,
             "prompt": req.body.prompt,
-            "suggested_answer": req.body.answer
+            "suggested_answer": req.body.answer,
+            "datetime": new Date()
         })
         res.status(200)
         res.json(result)
