@@ -28,7 +28,7 @@ async function main () {
 
 
     // route for ques display based on selected fields
-    app.get("/:level/", async (req,res) => {
+    app.get("/search/:level/", async (req,res) => {
         let db = MongoUtil.getDB()
         let results = await db.collection("question_bank").find({
             "level": req.params.level,
@@ -39,6 +39,21 @@ async function main () {
         res.status(200)
         res.json(results)
     })
+
+
+    // route to search by keywords
+    app.get("/search/advanced/", async(req, res) => {
+        let db = MongoUtil.getDB()
+        let criteria = {}
+        criteria[`${req.query.searchfield}`] = {
+            '$regex': req.query.keywords,
+            '$options': 'i'
+        }
+        let results = await db.collection("question_bank").find(criteria).toArray()
+        res.status(200)
+        res.json(results)
+    })
+
 
     // route to create question
     app.post("/addquestion", async (req, res) => {
@@ -56,6 +71,7 @@ async function main () {
         res.json(result)
     })
 
+    
     // route to update question
     app.put("/update/:questionid", async(req, res) => {
         let db = MongoUtil.getDB()
