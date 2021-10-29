@@ -57,7 +57,7 @@ async function main () {
     // route to create question
     app.post("/addquestion", async (req, res) => {
         let db = MongoUtil.getDB()
-        let result = await db.collection("question_bank").insertOne({
+        let result1 = await db.collection("question_bank").insertOne({
             "level": req.body.level,
             "grade": req.body.grade,
             "subject": req.body.subject,
@@ -66,8 +66,17 @@ async function main () {
             "suggested_answer": req.body.answer,
             "datetime": new Date()
         })
+        let newQuestionId = result1.insertedId
+        let result2 = await db.collection("all_users").updateOne({
+            '_id': ObjectId("6177752722b1a73b99a4038a")
+        }, {
+            '$push': {
+                'contributions': newQuestionId
+            }
+        })
+
         res.status(200)
-        res.json(result)
+        res.json(result2)
     })
 
     
