@@ -12,8 +12,6 @@ app.use(express.json())
 
 
 
-
-
 async function main () {
     await MongoUtil.connect(mongoUrl, "project_02")
 
@@ -39,7 +37,6 @@ async function main () {
         res.status(200)
         res.json(results)
     })
-
 
     // route to search by keywords based on fields chosen
     app.get("/search/advanced/:field/", async(req, res) => {
@@ -94,7 +91,6 @@ async function main () {
         res.status(200)
         res.json(result)
     })
-
 
 
     // route to delete question
