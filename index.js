@@ -41,11 +41,11 @@ async function main () {
     })
 
 
-    // route to search by keywords
-    app.get("/search/advanced/", async(req, res) => {
+    // route to search by keywords based on fields chosen
+    app.get("/search/advanced/:field/", async(req, res) => {
         let db = MongoUtil.getDB()
         let criteria = {}
-        criteria[`${req.query.searchfield}`] = {
+        criteria[`${req.params.field}`] = {
             '$regex': req.query.keywords,
             '$options': 'i'
         }
@@ -53,7 +53,6 @@ async function main () {
         res.status(200)
         res.json(results)
     })
-
 
     // route to create question
     app.post("/addquestion", async (req, res) => {
