@@ -100,11 +100,22 @@ async function main () {
     // route to delete question
     app.delete("/delete/:questionid", async (req,res) => {
         let db = MongoUtil.getDB()
-        let results = await db.collection("question_bank").deleteOne({
+        // delete from question bank
+        let result1 = await db.collection("question_bank").deleteOne({
             '_id': ObjectId(req.params.questionid)
         })
+
+        // update in user's contributions
+        let result2 = await db.collection("all_users").updateOne({
+            '_id': ObjectId("6177752722b1a73b99a4038a")
+        }, {
+            '$pull': {
+                'contributions': ObjectId(req.params.questionid)
+                }
+        })
+
         res.status(200)
-        res.send(results)
+        res.send(result2)
     })
 
 }
