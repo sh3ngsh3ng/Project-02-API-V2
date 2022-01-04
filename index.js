@@ -10,8 +10,6 @@ let app = express()
 app.use(cors())
 app.use(express.json())
 
-// testing saving
-
 async function main () {
     await MongoUtil.connect(mongoUrl, "project_02")
 
@@ -77,8 +75,8 @@ async function main () {
     })
 
     
-    // route to update question
-    app.put("/update/:questionid", async(req, res) => {
+    // route to update question (prompt and suggested_answer only)
+    app.patch("/update/:questionid", async(req, res) => {
         let db = MongoUtil.getDB()
         let result = await db.collection("question_bank").updateOne({
             '_id': ObjectId(req.params.questionid)
@@ -114,7 +112,64 @@ async function main () {
         res.send(result2)
     })
 
+    // route to update all the saved questions
+    app.patch("/savequestions", async (req,res) => {
+        let db = MongoUtil.getDB()
+
+
+        let oldContributedQuestions = await db.collection("all_users").findOne({
+            '_id': ObjectId("6177752722b1a73b99a4038a")
+        })
+
+
+        let newContributions = req.body.savedQuestions
+        oldContributedQuestions = oldContributedQuestions.saved_questions
+
+        for (let newQuestion of newContributions) {
+            ObjectId(newQuestion)
+            if (!oldContributedQuestions.includes(newQuestion)) {
+                newQuestion = ObjectId(newQuestion)
+                oldContributedQuestions.push(newQuestion)
+            }
+        }
+        let newContributedQuestions = oldContributedQuestions
+
+        let results = await db.collection("all_users").updateOne({
+            '_id': ObjectId("6177752722b1a73b99a4038a")
+        }, {
+            '$set': {
+                'saved_questions': newContributedQuestions
+            }
+        })
+
+        res.status(200)
+        res.json(results)
+    })
+
+
+    // route to display all saved questions
+    app.get("/savedquestions", async (req,res) => {
+        let db = MongoUtil.getDB()
+
+        let savedQuestions = await db.collection("all_users").findOne({
+            '_id': ObjectId("6177752722b1a73b99a4038a")
+        })
+
+        savedQuestions = savedQuestions.saved_questions
+
+        let arrayOfSavedQuestions = []
+        for (let ObjId of savedQuestions) {
+            let results = await db.collection("question_bank").findOne({
+                '_id': ObjId
+            })
+            arrayOfSavedQuestions.push(results)
+        }
+        res.status(200)
+        res.json(arrayOfSavedQuestions)
+
+    })
 }
+
 
 main ()
 
