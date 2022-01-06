@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const MongoUtil = require("../MongoUtil.js")
+const ObjectId = require("mongodb").ObjectId
 
 // Update question (PROMPT n SUGGESTED_ANSWER only)
 router.patch("/update/:questionid", async(req, res) => {
