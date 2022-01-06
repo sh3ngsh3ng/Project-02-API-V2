@@ -2,7 +2,7 @@
 tasks:
   - name: Install nodemon and Start Server
     init: npm install -g nodemon
-    command: npm run dev
+    command: nodemon
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
