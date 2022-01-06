@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "nodemon": "npm install -g nodemon",
-    "start": "nodemon"
+    "dev": "yarn add nodemon -D && nodemon"
   },
   "repository": {
     "type": "git",
