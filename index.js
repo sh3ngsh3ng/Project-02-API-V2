@@ -24,19 +24,31 @@ async function main () {
     // route for ques display based on selected fields
     app.get("/search/:level/", async (req,res) => {
         let db = MongoUtil.getDB()
-
-        let results = await db.collection("question_bank").find({
+        // array via query string is received in string => "trending,popular", "popular", "" (empty string = none selected)
+        let searchConfig = {
             "level": req.params.level,
             "grade": req.query.grade,
             "subject": req.query.subject,
             "topic": req.query.topic
-            // questions with multiple topics
-            // "topic": {
-            //         "$in": ['addition']
-            // }
-        }).toArray()
-        console.log("called")
+        }
 
+        // to search for any of the elements in the array
+        if (req.query.tags !== "") {
+            let query = req.query.tags.split(",")
+            searchConfig.tags = {
+                "$in": query
+            }
+        }
+
+        let projection = {
+            "_id": 1,
+            "prompt": 1,
+            "suggested_answer": 1,
+            "datetime": 1
+        }
+        
+        let results = await db.collection("question_bank").find(searchConfig).project(projection).toArray()
+        console.log(results)
         res.status(200)
         res.json(results)
     })
@@ -64,6 +76,7 @@ async function main () {
             "topic": req.body.topic,
             "prompt": req.body.prompt,
             "suggested_answer": req.body.answer,
+            "tags": req.body.tags,
             "datetime": new Date()
         })
         let newQuestionId = result1.insertedId
