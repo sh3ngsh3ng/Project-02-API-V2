@@ -1,7 +1,7 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
-  - name: Install nodemon and start server
-    init: . ${GITPOD_REPO_ROOT}/start_server.sh
+  - init: npm install -g nodemon
+    command: nodemon
 
 # List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
 ports:
