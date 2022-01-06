@@ -13,7 +13,6 @@ app.use(express.json())
 async function main () {
     await MongoUtil.connect(mongoUrl, "project_02")
 
-
     // route to display ALL questions
     app.get("/", async (req,res) => {
         let db = MongoUtil.getDB()
@@ -22,16 +21,22 @@ async function main () {
         res.json(results)
     })
 
-
     // route for ques display based on selected fields
     app.get("/search/:level/", async (req,res) => {
         let db = MongoUtil.getDB()
+
         let results = await db.collection("question_bank").find({
             "level": req.params.level,
             "grade": req.query.grade,
             "subject": req.query.subject,
             "topic": req.query.topic
+            // questions with multiple topics
+            // "topic": {
+            //         "$in": ['addition']
+            // }
         }).toArray()
+        console.log("called")
+
         res.status(200)
         res.json(results)
     })
@@ -114,19 +119,18 @@ async function main () {
 
     // route to update all the saved questions
     app.patch("/savequestions", async (req,res) => {
+        console.log("Called")
         let db = MongoUtil.getDB()
-
 
         let oldContributedQuestions = await db.collection("all_users").findOne({
             '_id': ObjectId("6177752722b1a73b99a4038a")
         })
 
-
         let newContributions = req.body.savedQuestions
         oldContributedQuestions = oldContributedQuestions.saved_questions
 
         for (let newQuestion of newContributions) {
-            ObjectId(newQuestion)
+
             if (!oldContributedQuestions.includes(newQuestion)) {
                 newQuestion = ObjectId(newQuestion)
                 oldContributedQuestions.push(newQuestion)
@@ -141,7 +145,7 @@ async function main () {
                 'saved_questions': newContributedQuestions
             }
         })
-
+    
         res.status(200)
         res.json(results)
     })
@@ -162,9 +166,12 @@ async function main () {
             let results = await db.collection("question_bank").findOne({
                 '_id': ObjId
             })
-            arrayOfSavedQuestions.push(results)
+            if (results) {
+                arrayOfSavedQuestions.push(results)
+            }
         }
         res.status(200)
+        console.log(arrayOfSavedQuestions)
         res.json(arrayOfSavedQuestions)
 
     })

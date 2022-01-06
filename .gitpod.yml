@@ -1,0 +1,5 @@
+tasks:
+    - name: Install nodemon
+      command: npm run nodemon
+    - name: Start nodemon
+      command: npm run start
