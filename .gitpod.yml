@@ -1,7 +1,7 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
   - name: start server
-    before: npm run start
+    before: sh ./start_server.sh
     init: npm install
     command: npm run start
 
