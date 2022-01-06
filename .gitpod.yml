@@ -1,3 +1,4 @@
 tasks:
     - name: Install nodemon and Start Server
+      init: npm install -g nodemon
       command: npm run dev
