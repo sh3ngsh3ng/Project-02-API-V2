@@ -32,13 +32,22 @@ router.get("/search/:level/", async(req,res) => {
                 "$in": query
             }
         }
-        
-        if (searchConfig) {
+
+        if (req.query.toDate !== "" && req.query.fromDate !== "") {
             searchConfig.datetime = {
-                "$gte": new Date("2010-12-31"),
-                "$lte": new Date("2022-01-01")
+                "$lte": new Date(req.query.toDate),
+                "$gte": new Date(req.query.fromDate)
+            }
+        } else if (req.query.toDate) {
+            searchConfig.datetime = {
+                "$lte": new Date(req.query.toDate)
+            }
+        } else if (req.query.fromDate) {
+            searchConfig.datetime = {
+                "$gte": new Date(req.query.fromDate)
             }
         }
+
         console.log(searchConfig)
     
         // only project prompt and answer back to client side
