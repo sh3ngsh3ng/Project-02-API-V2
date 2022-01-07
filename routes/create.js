@@ -1,12 +1,11 @@
 const express = require("express")
 const router = express.Router()
 const MongoUtil = require("../MongoUtil.js")
-const {checkFields} = require("../middleware")
+const {checkFields, checkProfanity} = require("../middleware")
 const ObjectId = require("mongodb").ObjectId
 
-router.post("/addquestion", checkFields, async (req,res) => {
+router.post("/addquestion", [checkFields, checkProfanity], async (req,res) => {
     let db = MongoUtil.getDB()
-    console.log(typeof(req.body.tags))
     // add question to question bank
     let result1 = await db.collection("question_bank").insertOne({
         "level": req.body.level,
@@ -27,9 +26,8 @@ router.post("/addquestion", checkFields, async (req,res) => {
             'contributions': newQuestionId
         }
     })
-
-    res.status(200)
-    res.json(result2)
+    res.sendStatus(200)
+    // res.json(result2)
 })
 
 module.exports = router

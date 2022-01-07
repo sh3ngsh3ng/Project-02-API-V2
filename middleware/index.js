@@ -1,3 +1,4 @@
+const Filter = require('bad-words')
 
 
 
@@ -17,9 +18,19 @@ const checkFields = (req,res,next) => {
     }
 }
 
+// check for profanity
+const checkProfanity = (req,res,next) => {
+    let filter = new Filter()
+    let check = filter.isProfane(req.body.prompt) || filter.isProfane(req.body.answer)
+    if (check) {
+        res.sendStatus(400)
+    } else {
+        next()
+    }
+}
 
 
-module.exports = {checkFields}
+module.exports = {checkFields, checkProfanity}
 
 // After implementing login
 // const authenticateUser = (req,res,next) => {
