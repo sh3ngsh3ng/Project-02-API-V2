@@ -1,8 +1,6 @@
 const Filter = require('bad-words')
 
 
-
-
 // Check that all FIELDS are FILLED when creating questions (see what i did there? hahah)
 const checkFields = (req,res,next) => {
     if (req.body.level == null 
