@@ -1,10 +1,10 @@
 const express = require("express")
 const router = express.Router()
 const MongoUtil = require("../MongoUtil.js")
-const {checkFields, checkProfanity} = require("../middleware")
+const {checkFields, checkProfanity, checkValidityOfFields} = require("../middleware")
 const ObjectId = require("mongodb").ObjectId
 
-router.post("/addquestion", [checkFields, checkProfanity], async (req,res) => {
+router.post("/addquestion", [checkFields, checkProfanity, checkValidityOfFields], async (req,res) => {
     let db = MongoUtil.getDB()
     // add question to question bank
     let result1 = await db.collection("question_bank").insertOne({

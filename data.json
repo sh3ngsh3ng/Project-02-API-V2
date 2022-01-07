@@ -1,0 +1,36 @@
+[
+    {
+        "id": "a",
+        "level": "Primary",
+        "value": "pri",
+        "grade": [1, 2, 3, 4, 5, 6],
+        "subjects": ["Math", "English", "Science"],
+        "math": ["Addition", "Subtraction", "Division", "Multiplication", "Fractions"],
+        "science": ["Diversity", "Magnets", "Matter"],
+        "english": ["Vocabulary", "Grammar", "Adjectives"]
+    },
+    {
+        "id": "b",
+        "level": "Secondary",
+        "value": "sec",
+        "grade": [1, 2, 3, 4],
+        "subjects": ["A Math", "E Math", "Pure Chemistry", "Pure Biology", "History", "Geography"],
+        "a math": ["Polynomials", "Quadratic Equations", "Binomial Theorem"],
+        "e math": ["Linear Functions", "Geometry", "Graphs"],
+        "pure chemistry": ["Periodic Table", "Kinetic Particle Theory", "Ionic Equations"],
+        "pure biology": ["Cells", "Evolution", "Biological Molecules", "Reproduction"],
+        "history": ["History of Singapore", "World War I", "World War II"],
+        "geography": ["Mountains", "Volcanoes", "Climate"]
+    },
+    {
+        "id": "c",
+        "level": "Junior College",
+        "value": "jc",
+        "grade": [1, 2],
+        "subjects": ["H2 Math", "H2 Economics", "H2 Chemistry", "H2 Biology"],
+        "h2 math": ["Functions", "Differentiation", "Integration", "Complex Numbers", "Probability"],
+        "h2 economics": ["Demand & Supply", "Market Structure", "Globalisation"],
+        "h2 chemistry": ["Atomic Structure", "Reaction Kinetics", "Chemical Bonding", "Electrochemistry"],
+        "h2 biology": ["Stem Cells", "Cellular Respiration", "Enzymes", "Inheritance", "Photosynthesis"]
+    }
+]
