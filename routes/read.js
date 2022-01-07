@@ -2,7 +2,6 @@ const express = require("express")
 const router = express.Router()
 const MongoUtil = require("../MongoUtil.js")
 const ObjectId = require("mongodb").ObjectId
-const ISODate = require('mongodb').ISODate
 
 // Display ALL questions
 router.get("/", async (req,res) => {

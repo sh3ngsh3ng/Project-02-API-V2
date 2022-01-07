@@ -14,6 +14,7 @@ let findLevelObj = (array, level) => {
     }
   }
 
+// function to change first letter of string to uppercase
 let changeFirstLetterToUpper = (string) => {
     return string[0].toUpperCase() + string.slice(1)
 }
