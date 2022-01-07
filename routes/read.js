@@ -14,7 +14,6 @@ router.get("/", async (req,res) => {
 // Display questions for SELECTED field
 router.get("/search/:level/", async(req,res) => {
     let db = MongoUtil.getDB()
-    console.log("called")
     // array via query string is received in string => "trending,popular", "popular", "" (empty string = none selected)
     
     try {
@@ -37,17 +36,15 @@ router.get("/search/:level/", async(req,res) => {
                 "$lte": new Date(req.query.toDate),
                 "$gte": new Date(req.query.fromDate)
             }
-        } else if (req.query.toDate) {
+        } else if (req.query.toDate !== "") {
             searchConfig.datetime = {
                 "$lte": new Date(req.query.toDate)
             }
-        } else if (req.query.fromDate) {
+        } else if (req.query.fromDate !== "") {
             searchConfig.datetime = {
                 "$gte": new Date(req.query.fromDate)
             }
         }
-
-        console.log(searchConfig)
     
         // only project prompt and answer back to client side
         let projection = {

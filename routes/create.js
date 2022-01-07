@@ -15,7 +15,7 @@ router.post("/addquestion", [checkFields, checkProfanity, checkValidityOfFields]
         "prompt": req.body.prompt,
         "suggested_answer": req.body.answer,
         "tags": req.body.tags,
-        "datetime": new Date()
+        "datetime": new Date("2016-12-31")
     })
     let newQuestionId = result1.insertedId
     // add question to user's contributions

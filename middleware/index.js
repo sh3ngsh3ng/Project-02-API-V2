@@ -40,11 +40,16 @@ const checkValidityOfFields = (req, res, next) => {
     let grade = parseInt(req.body.grade)
     if (levelObj.grade.includes(grade)) {
         let subject = changeFirstLetterToUpper(req.body.subject)
+        console.log(subject)
         if (levelObj.subjects.includes(subject)) {
             let topic = changeFirstLetterToUpper(req.body.topic)
             if (levelObj[req.body.subject].includes(topic)) {
                 next()
+            } else {
+                res.sendStatus(400)
             }
+        } else {
+            res.sendStatus(400)
         }
     } else {
         res.sendStatus(400)
