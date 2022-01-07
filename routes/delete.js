@@ -4,7 +4,8 @@ const MongoUtil = require("../MongoUtil.js")
 const ObjectId = require("mongodb").ObjectId
 
 
-router.delete("/delete/:questionid", async (req,res) => {
+router.delete("/:questionid", async (req,res) => {
+    console.log("called")
     let db = MongoUtil.getDB()
     // delete from question bank
     let result1 = await db.collection("question_bank").deleteOne({

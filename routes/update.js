@@ -4,7 +4,7 @@ const MongoUtil = require("../MongoUtil.js")
 const ObjectId = require("mongodb").ObjectId
 
 // Update question (PROMPT n SUGGESTED_ANSWER only)
-router.patch("/update/:questionid", async(req, res) => {
+router.patch("/:questionid", async(req, res) => {
     let db = MongoUtil.getDB()
     let result = await db.collection("question_bank").updateOne({
         '_id': ObjectId(req.params.questionid)

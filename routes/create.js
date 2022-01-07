@@ -6,6 +6,7 @@ const ObjectId = require("mongodb").ObjectId
 
 router.post("/addquestion", checkFields, async (req,res) => {
     let db = MongoUtil.getDB()
+    console.log(typeof(req.body.tags))
     // add question to question bank
     let result1 = await db.collection("question_bank").insertOne({
         "level": req.body.level,
@@ -13,7 +14,7 @@ router.post("/addquestion", checkFields, async (req,res) => {
         "subject": req.body.subject,
         "topic": req.body.topic,
         "prompt": req.body.prompt,
-        "suggested_answer": req.body.suggested_answer,
+        "suggested_answer": req.body.answer,
         "tags": req.body.tags,
         "datetime": new Date()
     })

@@ -16,7 +16,7 @@ const api = {
     'read': require("./routes/read"),
     'create': require("./routes/create"),
     'update': require("./routes/update"),
-    'delete': require("./routes/update")
+    'delete': require("./routes/delete")
 }
 
 async function main () {

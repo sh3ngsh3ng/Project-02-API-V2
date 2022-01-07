@@ -9,7 +9,7 @@ const checkFields = (req,res,next) => {
         || req.body.subject == null 
         || req.body.topic == null
         || req.body.prompt == null
-        || req.body.suggested_answer == null) 
+        || req.body.answer == null) 
         {
         res.sendStatus(400)
     } else {

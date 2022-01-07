@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const MongoUtil = require("../MongoUtil.js")
 const ObjectId = require("mongodb").ObjectId
+const ISODate = require('mongodb').ISODate
 
 // Display ALL questions
 router.get("/", async (req,res) => {
@@ -14,6 +15,7 @@ router.get("/", async (req,res) => {
 // Display questions for SELECTED field
 router.get("/search/:level/", async(req,res) => {
     let db = MongoUtil.getDB()
+    console.log("called")
     // array via query string is received in string => "trending,popular", "popular", "" (empty string = none selected)
     
     try {
@@ -30,6 +32,16 @@ router.get("/search/:level/", async(req,res) => {
                 "$in": query
             }
         }
+        
+        if (searchConfig) {
+            searchConfig.datetime = {
+                "$gte": new Date("2010-12-31"),
+                "$lte": new Date("2022-01-01")
+            }
+        }
+        console.log(searchConfig)
+    
+        // only project prompt and answer back to client side
         let projection = {
             "_id": 1,
             "prompt": 1,
